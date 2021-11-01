@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress-internal
+  namespace: nginx-ingress-ctrl-internal
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/healthcheck-path: /healthz
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/ssl-policy: ''
+    alb.ingress.kubernetes.io/waf-acl-id: ''
+    alb.ingress.kubernetes.io/certificate-arn: ''
+    alb.ingress.kubernetes.io/tags: Environment=dev
+    alb.ingress.kubernetes.io/security-groups: ''
+spec:
+  rules:
+  - host: 
+      paths:
+        path: "/*"
+        backend:
+          serviceName: nginx-ingress-ctrl-internal-ingress-nginx-controller
+          servicePort: 443
